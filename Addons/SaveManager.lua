@@ -1,8 +1,14 @@
 local httpService = game:GetService("HttpService")
+local Players = game:GetService("Players")
 
 local SaveManager = {}
 SaveManager.Folder = "FluentSettings"
 SaveManager.Ignore = {}
+SaveManager.AutoSave = false
+SaveManager.AutoLoad = false
+SaveManager.ConfigName = nil
+SaveManager.GameName = nil
+SaveManager._autoSaveHooked = false
 SaveManager.Parser = {
     Toggle     = { Save=function(idx,o) return{type="Toggle",idx=idx,value=o.Value} end, Load=function(idx,d) if SaveManager.Options[idx] then SaveManager.Options[idx]:SetValue(d.value) end end },
     Checkbox   = { Save=function(idx,o) return{type="Checkbox",idx=idx,value=o.Value} end, Load=function(idx,d) if SaveManager.Options[idx] then SaveManager.Options[idx]:SetValue(d.value) end end },
@@ -21,6 +27,27 @@ function SaveManager:BuildFolderTree()
 end
 function SaveManager:SetLibrary(lib) self.Library=lib; self.Options=lib.Options end
 function SaveManager:IgnoreThemeSettings() self:SetIgnoreIndexes({"InterfaceTheme","AcrylicToggle","TransparentToggle","MenuKeybind","AnimationToggle"}) end
+
+-- Build the full folder path with GameName and Username separation
+function SaveManager:BuildGameFolder(config)
+    config = config or {}
+    local base = config.Folder or self.Folder
+    local gameName = config.GameName or self.GameName
+    local playerName = Players.LocalPlayer and Players.LocalPlayer.Name or "Unknown"
+
+    if gameName then
+        base = base .. "/" .. gameName .. "/" .. playerName
+    end
+
+    self.Folder = base
+    self.AutoSave = config.AutoSave or false
+    self.AutoLoad = config.AutoLoad or false
+    self.ConfigName = config.ConfigName or nil
+    self.GameName = gameName
+
+    self:BuildFolderTree()
+end
+
 function SaveManager:Save(name)
     if not name then return false,"no config selected" end
     local data={objects={}}
@@ -69,6 +96,43 @@ function SaveManager:LoadAutoloadConfig()
         self.Library:Notify({Title="Interface",Content="Config loader",SubContent=string.format("Auto loaded %q",name),Duration=7})
     end
 end
+
+-- Auto-Load: load ConfigName automatically on startup
+function SaveManager:DoAutoLoad()
+    if not self.AutoLoad or not self.ConfigName then return end
+    local f = self.Folder.."/settings/"..self.ConfigName..".json"
+    if isfile(f) then
+        local ok, err = self:Load(self.ConfigName)
+        if ok then
+            self.Library:Notify({Title="Config", Content="Auto-loaded config: "..self.ConfigName, Duration=5})
+        end
+    end
+end
+
+-- Auto-Save: hook all options to save on change
+function SaveManager:SetupAutoSave()
+    if not self.AutoSave or not self.ConfigName then return end
+    if self._autoSaveHooked then return end
+    self._autoSaveHooked = true
+
+    task.spawn(function()
+        task.wait(1)
+        for idx, opt in pairs(self.Options) do
+            if not self.Ignore[idx] and not idx:find("^SaveManager_") and not idx:find("^InterfaceManager_") and not idx:find("^FB_") then
+                local originalCb = opt.Callback
+                opt.Callback = function(...)
+                    if originalCb then
+                        pcall(originalCb, ...)
+                    end
+                    pcall(function()
+                        SaveManager:Save(SaveManager.ConfigName)
+                    end)
+                end
+            end
+        end
+    end)
+end
+
 function SaveManager:BuildConfigSection(tab)
     assert(self.Library,"Must set SaveManager.Library")
     local sec=tab:AddSection("Configuration","lucide/file-text")
@@ -157,6 +221,10 @@ function SaveManager:BuildConfigSection(tab)
         autoBtn:SetDesc("Current autoload: "..readfile(_autoPath))
     end
     SaveManager:SetIgnoreIndexes({"SaveManager_ConfigList","SaveManager_ConfigName"})
+
+    -- Auto-Load and Auto-Save setup
+    self:DoAutoLoad()
+    self:SetupAutoSave()
 end
 SaveManager:BuildFolderTree()
 

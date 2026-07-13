@@ -402,10 +402,10 @@ return function(Config)
 		Window.SelectorPosMotor:setGoal(Instant(TabModule:GetCurrentTabPos()))
 	end)
 
-	if Config.ToggleIconEnabled or Config.ToggleIcon then
-		local toggleIconName = Config.ToggleIcon or "solar/widget-2-bold"
+	local fiCfg = Config.FloatingIcon
+	if fiCfg and fiCfg.Enabled then
 		local CoreGui = game:GetService("CoreGui")
-		local screenGuiName = "NTGUIFLY_WindowToggle"
+		local screenGuiName = "NTGUIFLY_FloatingIcon"
 		local existing = CoreGui:FindFirstChild(screenGuiName)
 		if existing then existing:Destroy() end
 
@@ -415,19 +415,25 @@ return function(Config)
 			ResetOnSpawn = false,
 		})
 
-		-- Destroy the ScreenGui when the Window is destroyed!
 		local connection
 		connection = Window.Root.Destroying:Connect(function()
 			screenGui:Destroy()
 			if connection then connection:Disconnect() end
 		end)
 
+		local iconSize = fiCfg.Size or UDim2.fromOffset(40, 40)
+		local iconPos = fiCfg.Position or UDim2.new(0, 20, 0.5, 0)
+		local iconImage = fiCfg.Image or "rbxassetid://10747373176"
+		local iconColor = fiCfg.ImageColor3 or Color3.fromRGB(255, 255, 255)
+		local iconBgColor = fiCfg.BackgroundColor3 or Color3.fromRGB(30, 30, 30)
+		local iconBgTransparency = fiCfg.BackgroundTransparency or 0.2
+
 		local buttonFrame = New("Frame", {
-			Name = "ToggleFrame",
-			Size = UDim2.fromOffset(40, 40),
-			Position = UDim2.new(0.02, 0, 0.45, 0),
-			BackgroundColor3 = Color3.fromRGB(30, 30, 30),
-			BackgroundTransparency = 0.2,
+			Name = "FloatingIconFrame",
+			Size = iconSize,
+			Position = iconPos,
+			BackgroundColor3 = iconBgColor,
+			BackgroundTransparency = iconBgTransparency,
 			Active = true,
 			Parent = screenGui,
 		}, {
@@ -438,18 +444,12 @@ return function(Config)
 			})
 		})
 
-		local iconAssetId = "rbxassetid://10747373176"
-		pcall(function()
-			local resolved = Library:GetIcon(toggleIconName)
-			if resolved then iconAssetId = resolved end
-		end)
-
 		local toggleButton = New("ImageButton", {
 			Size = UDim2.fromScale(0.6, 0.6),
 			Position = UDim2.fromScale(0.2, 0.2),
 			BackgroundTransparency = 1,
-			Image = iconAssetId,
-			ImageColor3 = Color3.fromRGB(255, 255, 255),
+			Image = iconImage,
+			ImageColor3 = iconColor,
 			Parent = buttonFrame,
 		})
 
