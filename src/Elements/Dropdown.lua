@@ -193,7 +193,7 @@ function Dropdown:New(idx, config)
 	end
 
 	local function updateSize()
-		local minH = 42
+		local minH = showSearch and 76 or 42
 		if #d.Values > 10 then
 			popupRoot.Size = UDim2.fromOffset(popupWidth, 392)
 		else

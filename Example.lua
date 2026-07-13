@@ -6,13 +6,14 @@ local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.
 local PlayerName = game:GetService("Players").LocalPlayer.Name
 
 local Window = Fluent:CreateWindow({
-    Title = "NTGUIFLY",
+    Title = "DENGHUB",
     SubTitle = "Complete Elements Reference",
-    TabWidth = 160,
+    TabWidth = 200,
     Size = UDim2.fromOffset(580, 460),
     Acrylic = false, -- DISABLED background blur by default (fixes game screen blur)
-    Theme = "AshGray", -- Sets default theme to AshGray (as requested)
-    MinimizeKey = Enum.KeyCode.LeftControl -- Keybind to hide/show the menu
+    Theme = "Ash Gray", -- Sets default theme to Ash Gray (with space, matches AshGray.lua)
+    MinimizeKey = Enum.KeyCode.LeftControl, -- Keybind to hide/show the menu
+    ToggleIcon = "solar/widget-bold", -- Small draggable toggle icon on-screen
 })
 
 -- Define Tabs
@@ -232,26 +233,4 @@ task.spawn(function()
             end
         end
     end
-end)
-
--- ==========================================
--- 4. Floating Toggle Button (Using Built-in Style Addon)
--- ==========================================
-task.spawn(function()
-    local FloatingButtonManager = Fluent.FloatingButtonManager
-    FloatingButtonManager:SetLibrary(Fluent)
-    FloatingButtonManager:SetFolder("NTGUIFLY_" .. PlayerName .. "/floating")
-
-    -- Prevent duplicate buttons on re-run
-    local CoreGui = game:GetService("CoreGui")
-    local existing = CoreGui:FindFirstChild("NTGUIFLY_Toggle")
-    if existing then existing:Destroy() end
-
-    -- Load the built-in modern floating button style
-    -- (This automatically creates the button and registers it with FloatingButtonManager)
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/JJacKTH/NTGUIFLY/main/Addons/FloatingButtonModernStyle.lua"))()
-
-    -- Build Floating Button settings inside the Settings Tab
-    FloatingButtonManager:BuildConfigSection(Tabs.Settings)
-    FloatingButtonManager:LoadAutoloadConfig()
 end)

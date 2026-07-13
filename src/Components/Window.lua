@@ -402,5 +402,97 @@ return function(Config)
 		Window.SelectorPosMotor:setGoal(Instant(TabModule:GetCurrentTabPos()))
 	end)
 
+	if Config.ToggleIconEnabled or Config.ToggleIcon then
+		local toggleIconName = Config.ToggleIcon or "solar/widget-2-bold"
+		local CoreGui = game:GetService("CoreGui")
+		local screenGuiName = "NTGUIFLY_WindowToggle"
+		local existing = CoreGui:FindFirstChild(screenGuiName)
+		if existing then existing:Destroy() end
+
+		local screenGui = New("ScreenGui", {
+			Name = screenGuiName,
+			Parent = CoreGui,
+			ResetOnSpawn = false,
+		})
+
+		-- Destroy the ScreenGui when the Window is destroyed!
+		local connection
+		connection = Window.Root.Destroying:Connect(function()
+			screenGui:Destroy()
+			if connection then connection:Disconnect() end
+		end)
+
+		local buttonFrame = New("Frame", {
+			Name = "ToggleFrame",
+			Size = UDim2.fromOffset(40, 40),
+			Position = UDim2.new(0.02, 0, 0.45, 0),
+			BackgroundColor3 = Color3.fromRGB(30, 30, 30),
+			BackgroundTransparency = 0.2,
+			Active = true,
+			Parent = screenGui,
+		}, {
+			New("UICorner", { CornerRadius = UDim.new(1, 0) }),
+			New("UIStroke", {
+				Thickness = 2,
+				ThemeTag = { Color = "Accent" }
+			})
+		})
+
+		local iconAssetId = "rbxassetid://10747373176"
+		pcall(function()
+			local resolved = Library:GetIcon(toggleIconName)
+			if resolved then iconAssetId = resolved end
+		end)
+
+		local toggleButton = New("ImageButton", {
+			Size = UDim2.fromScale(0.6, 0.6),
+			Position = UDim2.fromScale(0.2, 0.2),
+			BackgroundTransparency = 1,
+			Image = iconAssetId,
+			ImageColor3 = Color3.fromRGB(255, 255, 255),
+			Parent = buttonFrame,
+		})
+
+		Creator.AddSignal(toggleButton.MouseButton1Click, function()
+			Window:Minimize()
+		end)
+
+		local Dragging, DragInput, DragStart, StartPosition
+
+		local function Update(input)
+			local delta = input.Position - DragStart
+			buttonFrame.Position = UDim2.new(
+				StartPosition.X.Scale, StartPosition.X.Offset + delta.X,
+				StartPosition.Y.Scale, StartPosition.Y.Offset + delta.Y
+			)
+		end
+
+		Creator.AddSignal(buttonFrame.InputBegan, function(input)
+			if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+				Dragging = true
+				DragStart = input.Position
+				StartPosition = buttonFrame.Position
+				
+				input.Changed:Connect(function()
+					if input.UserInputState == Enum.UserInputState.End then
+						Dragging = false
+					end
+				end)
+			end
+		end)
+
+		Creator.AddSignal(buttonFrame.InputChanged, function(input)
+			if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+				DragInput = input
+			end
+		end)
+
+		Creator.AddSignal(UserInputService.InputChanged, function(input)
+			if input == DragInput and Dragging then
+				Update(input)
+			end
+		end)
+	end
+
 	return Window
 end

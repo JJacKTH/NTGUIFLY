@@ -5615,6 +5615,98 @@ local aa = {
                     end
                 end
             )
+
+            if t.ToggleIconEnabled or t.ToggleIcon then
+                local toggleIconName = t.ToggleIcon or "solar/widget-2-bold"
+                local CoreGui = game:GetService("CoreGui")
+                local screenGuiName = "NTGUIFLY_WindowToggle"
+                local existing = CoreGui:FindFirstChild(screenGuiName)
+                if existing then existing:Destroy() end
+
+                local screenGui = s("ScreenGui", {
+                    Name = screenGuiName,
+                    Parent = CoreGui,
+                    ResetOnSpawn = false,
+                })
+
+                local connection
+                connection = v.Root.Destroying:Connect(function()
+                    screenGui:Destroy()
+                    if connection then connection:Disconnect() end
+                end)
+
+                local buttonFrame = s("Frame", {
+                    Name = "ToggleFrame",
+                    Size = UDim2.fromOffset(40, 40),
+                    Position = UDim2.new(0.02, 0, 0.45, 0),
+                    BackgroundColor3 = Color3.fromRGB(30, 30, 30),
+                    BackgroundTransparency = 0.2,
+                    Active = true,
+                    Parent = screenGui,
+                }, {
+                    s("UICorner", { CornerRadius = UDim.new(1, 0) }),
+                    s("UIStroke", {
+                        Thickness = 2,
+                        ThemeTag = { Color = "Accent" }
+                    })
+                })
+
+                local iconAssetId = "rbxassetid://10747373176"
+                pcall(function()
+                    local resolved = u:GetIcon(toggleIconName)
+                    if resolved then iconAssetId = resolved end
+                end)
+
+                local toggleButton = s("ImageButton", {
+                    Size = UDim2.fromScale(0.6, 0.6),
+                    Position = UDim2.fromScale(0.2, 0.2),
+                    BackgroundTransparency = 1,
+                    Image = iconAssetId,
+                    ImageColor3 = Color3.fromRGB(255, 255, 255),
+                    Parent = buttonFrame,
+                })
+
+                m.AddSignal(toggleButton.MouseButton1Click, function()
+                    v:Minimize()
+                end)
+
+                local Dragging, DragInput, DragStart, StartPosition
+
+                local function Update(input)
+                    local delta = input.Position - DragStart
+                    buttonFrame.Position = UDim2.new(
+                        StartPosition.X.Scale, StartPosition.X.Offset + delta.X,
+                        StartPosition.Y.Scale, StartPosition.Y.Offset + delta.Y
+                    )
+                end
+
+                m.AddSignal(buttonFrame.InputBegan, function(input)
+                    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+                        Dragging = true
+                        DragStart = input.Position
+                        StartPosition = buttonFrame.Position
+                        
+                        input.Changed:Connect(function()
+                            if input.UserInputState == Enum.UserInputState.End then
+                                Dragging = false
+                            end
+                        end)
+                    end
+                end)
+
+                m.AddSignal(buttonFrame.InputChanged, function(input)
+                    if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+                        DragInput = input
+                    end
+                end)
+
+                m.AddSignal(game:GetService("UserInputService").InputChanged, function(input)
+                    if input == DragInput and Dragging then
+                        Update(input)
+                    end
+                end)
+            end
+
             return v
         end
     end,
@@ -6729,7 +6821,7 @@ local aa = {
                     end
                 end, 0
             local y, z = function()
-                    local minH = 42
+                    local minH = ddShowSearch and 76 or 42
                     local maxH = 392
                     if j.OutsideWindow or j.DropdownOutsideWindow then
                         local winFrame = _winFrame()
