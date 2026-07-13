@@ -184,4 +184,10 @@ local function CreateButton(ButtonName, Name, Size1, Size2, ScriptLogic, CircleM
     return button
 end
 
-CreateButton("", "", 0.16, 0.12, nil, false)
+CreateButton("NTGUIFLY_Toggle", "NTG", 0.08, 0.08, function()
+    if getgenv().Fluent then
+        getgenv().Fluent:Minimize()
+    elseif Fluent then
+        Fluent:Minimize()
+    end
+end, true)
