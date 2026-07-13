@@ -1717,8 +1717,16 @@ local aa = {
                     pcall(function() x.ScrollGUI:Destroy() end)
                     x.ScrollGUI = nil
                 end
+                if x.PopupGUI then
+                    pcall(function() x.PopupGUI:Destroy() end)
+                    x.PopupGUI = nil
+                end
                 x.GUI:Destroy()
                 x.GUI = nil
+                if x.Folder then
+                    pcall(function() x.Folder:Destroy() end)
+                    x.Folder = nil
+                end
             end
         end
         function x.ToggleAcrylic(C, D)
