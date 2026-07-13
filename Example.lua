@@ -233,3 +233,87 @@ task.spawn(function()
         end
     end
 end)
+
+-- ==========================================
+-- 4. Floating Toggle Button (On-Screen Icon)
+-- ==========================================
+task.spawn(function()
+    local CoreGui = game:GetService("CoreGui")
+    -- Check for existing button to prevent duplicates on re-run
+    local existing = CoreGui:FindFirstChild("NTGUIFLY_ToggleButton")
+    if existing then existing:Destroy() end
+
+    local screenGui = Instance.new("ScreenGui")
+    screenGui.Name = "NTGUIFLY_ToggleButton"
+    screenGui.Parent = CoreGui
+    screenGui.ResetOnSpawn = false
+
+    local buttonFrame = Instance.new("Frame")
+    buttonFrame.Name = "ToggleFrame"
+    buttonFrame.Size = UDim2.fromOffset(46, 46)
+    buttonFrame.Position = UDim2.new(0.02, 0, 0.45, 0) -- Positioned at center-left
+    buttonFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+    buttonFrame.BackgroundTransparency = 0.2
+    buttonFrame.Active = true
+    buttonFrame.Parent = screenGui
+
+    local corner = Instance.new("UICorner")
+    corner.CornerRadius = UDim.new(1, 0) -- Circular shape
+    corner.Parent = buttonFrame
+
+    local stroke = Instance.new("UIStroke")
+    stroke.Thickness = 2
+    stroke.Color = Color3.fromRGB(0, 125, 255) -- Matching theme Accent color
+    stroke.Parent = buttonFrame
+
+    local toggleButton = Instance.new("ImageButton")
+    toggleButton.Size = UDim2.fromScale(0.6, 0.6)
+    toggleButton.Position = UDim2.fromScale(0.2, 0.2)
+    toggleButton.BackgroundTransparency = 1
+    toggleButton.Image = "rbxassetid://10747373176" -- Standard widget/menu icon
+    toggleButton.ImageColor3 = Color3.fromRGB(255, 255, 255)
+    toggleButton.Parent = buttonFrame
+
+    -- Click event: Toggle Fluent window visibility
+    toggleButton.MouseButton1Click:Connect(function()
+        Fluent:Minimize()
+    end)
+
+    -- Draggable Behavior logic
+    local UIS = game:GetService("UserInputService")
+    local Dragging, DragInput, DragStart, StartPosition
+
+    local function Update(input)
+        local delta = input.Position - DragStart
+        buttonFrame.Position = UDim2.new(
+            StartPosition.X.Scale, StartPosition.X.Offset + delta.X,
+            StartPosition.Y.Scale, StartPosition.Y.Offset + delta.Y
+        )
+    end
+
+    buttonFrame.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+            Dragging = true
+            DragStart = input.Position
+            StartPosition = buttonFrame.Position
+            
+            input.Changed:Connect(function()
+                if input.UserInputState == Enum.UserInputState.End then
+                    Dragging = false
+                end
+            end)
+        end
+    end)
+
+    buttonFrame.InputChanged:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
+            DragInput = input
+        end
+    end)
+
+    UIS.InputChanged:Connect(function(input)
+        if input == DragInput and Dragging then
+            Update(input)
+        end
+    end)
+end)
