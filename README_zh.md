@@ -1,24 +1,24 @@
 <p align="left">
-  <a href="https://github.com/StyearX/Fluent-modded/graphs/contributors">
-    <img alt="Contributors" src="https://img.shields.io/github/contributors/StyearX/Fluent-modded" />
+  <a href="https://github.com/JJacKTH/NTGUIFLY/graphs/contributors">
+    <img alt="Contributors" src="https://img.shields.io/github/contributors/JJacKTH/NTGUIFLY" />
   </a>
-  <a href="https://github.com/StyearX/Fluent-modded/issues">
-    <img alt="Issues" src="https://img.shields.io/github/issues/StyearX/Fluent-modded?color=0088ff" />
+  <a href="https://github.com/JJacKTH/NTGUIFLY/issues">
+    <img alt="Issues" src="https://img.shields.io/github/issues/JJacKTH/NTGUIFLY?color=0088ff" />
   </a>
-  <a href="https://github.com/StyearX/Fluent-modded/pulls">
-    <img alt="Pull Requests" src="https://img.shields.io/github/issues-pr/StyearX/Fluent-modded?color=0088ff" />
+  <a href="https://github.com/JJacKTH/NTGUIFLY/pulls">
+    <img alt="Pull Requests" src="https://img.shields.io/github/issues-pr/JJacKTH/NTGUIFLY?color=0088ff" />
   </a>
-  <a href="https://github.com/StyearX/Fluent-modded/stargazers">
-    <img alt="Stars" src="https://img.shields.io/github/stars/StyearX/Fluent-modded?style=flat" />
+  <a href="https://github.com/JJacKTH/NTGUIFLY/stargazers">
+    <img alt="Stars" src="https://img.shields.io/github/stars/JJacKTH/NTGUIFLY?style=flat" />
   </a>
-  <a href="https://github.com/StyearX/Fluent-modded/network/members">
-    <img alt="Forks" src="https://img.shields.io/github/forks/StyearX/Fluent-modded?style=flat" />
+  <a href="https://github.com/JJacKTH/NTGUIFLY/network/members">
+    <img alt="Forks" src="https://img.shields.io/github/forks/JJacKTH/NTGUIFLY?style=flat" />
   </a>
-  <a href="https://github.com/StyearX/Fluent-modded">
-    <img alt="Last Commit" src="https://img.shields.io/github/last-commit/StyearX/Fluent-modded" />
+  <a href="https://github.com/JJacKTH/NTGUIFLY">
+    <img alt="Last Commit" src="https://img.shields.io/github/last-commit/JJacKTH/NTGUIFLY" />
   </a>
-  <a href="https://github.com/StyearX/Fluent-modded">
-    <img alt="Repo Size" src="https://img.shields.io/github/repo-size/StyearX/Fluent-modded" />
+  <a href="https://github.com/JJacKTH/NTGUIFLY">
+    <img alt="Repo Size" src="https://img.shields.io/github/repo-size/JJacKTH/NTGUIFLY" />
   </a>
 </p>
 
@@ -38,7 +38,7 @@
 
 ```lua
 local Fluent = loadstring(game:HttpGet(
-    "https://github.com/StyearX/Fluent-Modded/releases/download/Fluent/FluentPro"
+    "https://github.com/JJacKTH/NTGUIFLY/releases/download/Fluent/FluentPro"
 ))()
 
 local Window = Fluent:CreateWindow({
@@ -245,7 +245,7 @@ MediaManager:SetFolder("MyHub/MediaCache")
 
 ## 许可证
 
-MIT — [LICENSE](https://github.com/StyearX/Fluent-modded/blob/main/LICENSE)
+MIT — [LICENSE](https://github.com/JJacKTH/NTGUIFLY/blob/main/LICENSE)
 
 ---
 

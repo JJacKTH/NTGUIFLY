@@ -10,7 +10,7 @@
 If you encounter a bug, have a feature suggestion, or want to contribute directly:
 
 - **File an issue** or **submit a pull request** via the official repository:  
-  🔗 [https://github.com/StyearX/Fluent-modded/issues](https://github.com/StyearX/Fluent-modded/issues)
+  🔗 [https://github.com/JJacKTH/NTGUIFLY/issues](https://github.com/JJacKTH/NTGUIFLY/issues)
 
 Before creating a new issue, please:
 - Check existing issues (including closed ones) to avoid duplicates.

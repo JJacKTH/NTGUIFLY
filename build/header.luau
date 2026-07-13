@@ -4,5 +4,5 @@
 
     Author: dawid,Vraigos,StyearX
     License: MIT
-    GitHub: https://github.com/StyearX/Fluent-modded
+    GitHub: https://github.com/JJacKTH/NTGUIFLY
 --]]

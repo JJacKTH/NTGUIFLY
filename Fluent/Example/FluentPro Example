@@ -1,4 +1,4 @@
-local Fluent = loadstring(game:HttpGet("https://github.com/StyearX/Fluent-modded/releases/download/1.5.1/FluentPro"))()
+local Fluent = loadstring(game:HttpGet("https://github.com/JJacKTH/NTGUIFLY/releases/download/1.5.1/FluentPro"))()
 
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
@@ -878,7 +878,7 @@ local secCode = Tabs.Elements:AddSection("Code", "solar/code-bold")
 
 secCode:AddCode({
     Title = "Load FluentPro",
-    Code = 'local Fluent = loadstring(game:HttpGet("https://github.com/StyearX/Fluent-modded/releases/download/1.4.6/FluentPro"))()',
+    Code = 'local Fluent = loadstring(game:HttpGet("https://github.com/JJacKTH/NTGUIFLY/releases/download/1.4.6/FluentPro"))()',
     OnCopy = function() Notify("Code", "Copied", "Info", nil, 2) end,
 })
 

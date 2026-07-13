@@ -103,7 +103,7 @@ local a, b = {
 
 local Animation
 pcall(function()
-    local _fn = loadstring(game:HttpGet("https://raw.githubusercontent.com/StyearX/Fluent-modded/refs/heads/main/Addons/animatedgui.lua"))
+    local _fn = loadstring(game:HttpGet("https://raw.githubusercontent.com/JJacKTH/NTGUIFLY/refs/heads/main/Addons/animatedgui.lua"))
     if _fn then Animation = _fn() end
 end)
 if not Animation then Animation = {Apply = function() end} end
