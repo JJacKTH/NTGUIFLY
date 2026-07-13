@@ -129,14 +129,14 @@ Todos os pacotes de ícones são carregados sob demanda. Use o formato `prefixo/
 
 | Pacote | Prefixo | Repositório |
 |---|---|---|
-| Solar | `solar/` | https://github.com/StyearX/Icons/tree/main/solar |
-| Gravity | `gravity/` | https://github.com/StyearX/Icons/tree/main/gravity |
-| Lucide | `lucide/` | https://github.com/StyearX/Icons/tree/main/lucide |
-| Craft | `craft/` | https://github.com/StyearX/Icons/tree/main/craft |
-| Geist | `geist/` | https://github.com/StyearX/Icons/tree/main/geist |
-| SF Symbols | `sfsymbols/` | https://github.com/StyearX/Icons/tree/main/sfsymbols |
-| Heroicons | `hero/` | https://github.com/StyearX/Icons/blob/main/hero |
-| Google Material Icons | `gmi/` | https://github.com/StyearX/Icons/blob/main/GoogleMaterialIcons |
+| Solar | `solar/` | https://github.com/JJacKTH/Icons/tree/main/solar |
+| Gravity | `gravity/` | https://github.com/JJacKTH/Icons/tree/main/gravity |
+| Lucide | `lucide/` | https://github.com/JJacKTH/Icons/tree/main/lucide |
+| Craft | `craft/` | https://github.com/JJacKTH/Icons/tree/main/craft |
+| Geist | `geist/` | https://github.com/JJacKTH/Icons/tree/main/geist |
+| SF Symbols | `sfsymbols/` | https://github.com/JJacKTH/Icons/tree/main/sfsymbols |
+| Heroicons | `hero/` | https://github.com/JJacKTH/Icons/blob/main/hero |
+| Google Material Icons | `gmi/` | https://github.com/JJacKTH/Icons/blob/main/GoogleMaterialIcons |
 
 ```lua
 -- Exemplo de uso

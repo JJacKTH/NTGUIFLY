@@ -129,14 +129,14 @@ Fluent:SetTheme("MyTheme")
 
 | 图标包 | 前缀 | 仓库 |
 |---|---|---|
-| Solar | `solar/` | https://github.com/StyearX/Icons/tree/main/solar |
-| Gravity | `gravity/` | https://github.com/StyearX/Icons/tree/main/gravity |
-| Lucide | `lucide/` | https://github.com/StyearX/Icons/tree/main/lucide |
-| Craft | `craft/` | https://github.com/StyearX/Icons/tree/main/craft |
-| Geist | `geist/` | https://github.com/StyearX/Icons/tree/main/geist |
-| SF Symbols | `sfsymbols/` | https://github.com/StyearX/Icons/tree/main/sfsymbols |
-| Heroicons | `hero/` | https://github.com/StyearX/Icons/blob/main/hero |
-| Google Material Icons | `gmi/` | https://github.com/StyearX/Icons/blob/main/GoogleMaterialIcons |
+| Solar | `solar/` | https://github.com/JJacKTH/Icons/tree/main/solar |
+| Gravity | `gravity/` | https://github.com/JJacKTH/Icons/tree/main/gravity |
+| Lucide | `lucide/` | https://github.com/JJacKTH/Icons/tree/main/lucide |
+| Craft | `craft/` | https://github.com/JJacKTH/Icons/tree/main/craft |
+| Geist | `geist/` | https://github.com/JJacKTH/Icons/tree/main/geist |
+| SF Symbols | `sfsymbols/` | https://github.com/JJacKTH/Icons/tree/main/sfsymbols |
+| Heroicons | `hero/` | https://github.com/JJacKTH/Icons/blob/main/hero |
+| Google Material Icons | `gmi/` | https://github.com/JJacKTH/Icons/blob/main/GoogleMaterialIcons |
 
 ```lua
 -- 使用示例
