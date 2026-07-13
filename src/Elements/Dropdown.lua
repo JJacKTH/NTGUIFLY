@@ -290,7 +290,10 @@ function Dropdown:New(idx, config)
 			local lbl = btn:FindFirstChild("ButtonLabel")
 			if lbl then btn.Visible = blank or lbl.Text:lower():find(q, 1, true) ~= nil end
 		end
-		updateCanvas(); updateSize()
+		task.defer(function()
+			updateCanvas()
+			updateSize()
+		end)
 	end
 	if searchBox then
 		Creator.AddSignal(searchBox:GetPropertyChangedSignal("Text"), function()

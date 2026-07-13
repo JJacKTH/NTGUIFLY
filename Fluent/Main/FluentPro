@@ -6868,7 +6868,6 @@ local aa = {
             end
             
 
-            local filterTimer = nil
             local function updateDropdownFilter()
                 if not ddSearchBox then return end
                 local query = (ddSearchBox.Text or ""):lower():gsub("^%s+",""):gsub("%s+$","")
@@ -6879,8 +6878,10 @@ local aa = {
                         btn.Visible = blank or lbl.Text:lower():find(query, 1, true) ~= nil
                     end
                 end
-                z()
-                y()
+                task.defer(function()
+                    z()
+                    y()
+                end)
             end
 
             if ddSearchBox then

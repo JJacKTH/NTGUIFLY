@@ -2,13 +2,16 @@ local Fluent = loadstring(game:HttpGet("https://github.com/JJacKTH/NTGUIFLY/rele
 local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/JJacKTH/NTGUIFLY/main/Addons/SaveManager.lua"))()
 local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/JJacKTH/NTGUIFLY/main/Addons/InterfaceManager.lua"))()
 
+-- Get the username of the user running the code
+local PlayerName = game:GetService("Players").LocalPlayer.Name
+
 local Window = Fluent:CreateWindow({
     Title = "NTGUIFLY",
     SubTitle = "Complete Elements Reference",
     TabWidth = 160,
     Size = UDim2.fromOffset(580, 460),
-    Acrylic = true, -- Enables background blur (Requires Graphic Quality >= 8)
-    Theme = "Dark",
+    Acrylic = false, -- DISABLED background blur by default (fixes game screen blur)
+    Theme = "AshGray", -- Sets default theme to AshGray (as requested)
     MinimizeKey = Enum.KeyCode.LeftControl -- Keybind to hide/show the menu
 })
 
@@ -171,19 +174,62 @@ Tabs.Advanced:AddImage({
 Tabs.Advanced:AddSpace(15) -- Empty vertical spacing
 
 -- ==========================================
--- 3. Settings configuration
+-- 3. Settings configuration (Separated by Username)
 -- ==========================================
 SaveManager:SetLibrary(Fluent)
 InterfaceManager:SetLibrary(Fluent)
 
-InterfaceManager:SetFolder("NTGUIFLY_Configs")
-SaveManager:SetFolder("NTGUIFLY_Configs/saves")
+-- Create folders named after the Username to isolate saves
+InterfaceManager:SetFolder("NTGUIFLY_" .. PlayerName)
+SaveManager:SetFolder("NTGUIFLY_" .. PlayerName .. "/configs")
 
+-- Build Settings UI inside the Settings Tab
 InterfaceManager:BuildInterfaceSection(Tabs.Settings)
 SaveManager:BuildConfigSection(Tabs.Settings)
 
 -- Default to first Tab
 Window:SelectTab(1)
 
--- Load auto-saved config
-SaveManager:LoadAutoloadConfig()
+-- Auto-Save and Auto-Load Setup
+local configName = "autosave_" .. PlayerName
+
+-- 1. Auto-Load config on startup
+task.spawn(function()
+    pcall(function()
+        if isfile(SaveManager.Folder .. "/settings/" .. configName .. ".json") then
+            SaveManager:Load(configName)
+            Fluent:Notify({
+                Title = "NTGUIFLY",
+                Content = "Auto-loaded config for " .. PlayerName,
+                Duration = 5
+            })
+        else
+            Fluent:Notify({
+                Title = "NTGUIFLY",
+                Content = "Welcome, " .. PlayerName .. "! No save config found yet.",
+                Duration = 5
+            })
+        end
+    end)
+end)
+
+-- 2. Auto-Save whenever elements change
+task.spawn(function()
+    task.wait(1) -- Wait for startup load to complete
+    for OptionIdx, OptionObj in pairs(Fluent.Options) do
+        -- Skip save/config menu options
+        if not OptionIdx:find("^SaveManager_") and not OptionIdx:find("^InterfaceManager_") then
+            local originalCallback = OptionObj.Callback
+            OptionObj.Callback = function(...)
+                if originalCallback then
+                    local success, err = pcall(originalCallback, ...)
+                    if not success then warn("Callback error: " .. tostring(err)) end
+                end
+                -- Trigger Save
+                pcall(function()
+                    SaveManager:Save(configName)
+                end)
+            end
+        end
+    end
+end)
