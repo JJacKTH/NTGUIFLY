@@ -151,8 +151,6 @@ Tabs.Advanced:AddDivider()
 SaveManager:SetLibrary(Fluent)
 InterfaceManager:SetLibrary(Fluent)
 
-InterfaceManager:SetFolder("DENGHUB")
-
 -- Build game-specific, user-separated config folder
 SaveManager:BuildGameFolder({
     Folder = "DENGHUB",
@@ -161,6 +159,9 @@ SaveManager:BuildGameFolder({
     AutoSave = true,
     AutoLoad = true,
 })
+
+-- Set InterfaceManager folder to the same isolated game/user folder path
+InterfaceManager:SetFolder(SaveManager.Folder)
 
 InterfaceManager:BuildInterfaceSection(Tabs.Settings)
 SaveManager:BuildConfigSection(Tabs.Settings)
