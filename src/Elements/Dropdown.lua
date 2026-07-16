@@ -145,7 +145,7 @@ function Dropdown:New(idx, config)
 	if searchBox then table.insert(popupChildren, 1, searchBox) end
 
 	local popupInner = New("Frame", {
-		Size     = UDim2.fromScale(1, 0.6),
+		Size     = UDim2.fromScale(1, 0),
 		ThemeTag = { BackgroundColor3 = "DropdownHolder" },
 	}, popupChildren)
 
@@ -233,7 +233,7 @@ function Dropdown:New(idx, config)
 	function d:Close()
 		d.Opened = false
 		if sf then sf.ScrollingEnabled = true end
-		popupInner.Size   = UDim2.fromScale(1, 0.6)
+		popupInner.Size   = UDim2.fromScale(1, 0)
 		popupRoot.Visible = false
 		if searchBox then searchBox.Text = "" end
 	end

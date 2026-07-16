@@ -45,7 +45,7 @@ function Discord:New(idx, config)
 	})
 
 	-- default icon
-	local defaultIco = lib:GetIcon and lib:GetIcon("solar/chat-round-bold")
+	local defaultIco = lib and lib.GetIcon and lib:GetIcon("solar/chat-round-bold")
 	if defaultIco and type(defaultIco) == "table" then
 		iconImg.Image           = defaultIco.Image or ""
 		iconImg.ImageRectOffset = defaultIco.ImageRectOffset or Vector2.new()

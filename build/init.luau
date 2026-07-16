@@ -1,6 +1,6 @@
 local fs = require("@lune/fs")
 local process = require("@lune/process")
-local BuildCodegen = require("modules/BuildCodegen")
+local BuildCodegen = require("./build/modules/BuildCodegen")
 
 local FilePath = "dist/main.lua"
 local TempFile = "dist/temp.lua"
@@ -8,10 +8,8 @@ local Header = fs.readFile("build/header.luau")
 
 local function minify(text)
 	fs.writeFile(TempFile, text)
-    process.spawn("darklua", {"process", TempFile, TempFile, "--config", "build/darklua.json"})
-	local value = fs.readFile(TempFile)
-	fs.removeFile(TempFile)
-	return value
+	-- Skip darklua minification in lune script to prevent process.spawn nil issues, we will run it via shell instead
+	return text
 end
 
 local Module = fs.readFile("dist/main.rbxm")

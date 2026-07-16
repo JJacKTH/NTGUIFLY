@@ -43,7 +43,7 @@ function CollapsibleSection:New(tab, title, icon, startOpen)
 		})
 		iconOffset = 22
 		task.defer(function()
-			local ic = lib:GetIcon and lib:GetIcon(icon)
+			local ic = lib and lib.GetIcon and lib:GetIcon(icon)
 			if ic then
 				if type(ic) == "table" then
 					iconImg.Image           = ic.Image or ""
@@ -85,7 +85,7 @@ function CollapsibleSection:New(tab, title, icon, startOpen)
 	})
 	-- load chevron icon
 	task.defer(function()
-		local ic = lib:GetIcon and lib:GetIcon("lucide/chevron-right")
+		local ic = lib and lib.GetIcon and lib:GetIcon("lucide/chevron-right")
 		if ic and type(ic) == "table" then
 			chevron.Image           = ic.Image or ""
 			chevron.ImageRectOffset = ic.ImageRectOffset or Vector2.new()

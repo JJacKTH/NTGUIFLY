@@ -2,7 +2,7 @@
 
 local roblox = require("@lune/roblox")
 
-local LuaEncode = require("LuaEncode")
+local LuaEncode = require("./LuaEncode")
 
 -- Init script template for codegen (in this, we'll maintain 5.1 *syntax* compat)
 local InitScriptTemplate = [[
